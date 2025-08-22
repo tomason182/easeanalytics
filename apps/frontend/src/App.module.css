@@ -1,0 +1,39 @@
+.mainContainer {
+  /* border: 1px solid red; */
+}
+
+.mainContainer  ul {
+  list-style: none;
+}
+
+.statsContainer {
+   border: 1px solid #ccc;
+}
+
+.statsContainer ul {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin: 0;
+  
+}
+
+.statsContainer ul li {
+  border-right: 1px solid #ccc;
+  flex: 1;
+}
+
+.statsContainer ul li:last-of-type {
+  border-right:none;
+}
+.statsContainer ul li h3 {
+  margin: 0;
+}
+
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
