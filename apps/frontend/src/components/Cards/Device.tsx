@@ -10,17 +10,21 @@ export default function Device() {
         <thead>
           <tr>
             <th scope="col">Device</th>
-            <th scope="col">Visitors</th>
+            <th scope="col">Percentage</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th scope="row">Firefox</th>
-            <td>55k</td>
+            <th scope="row">Desktop</th>
+            <td>60%</td>
           </tr>
           <tr>
-            <th scope="row">Brave</th>
-            <td>34k</td>
+            <th scope="row">Mobile</th>
+            <td>35%</td>
+          </tr>
+          <tr>
+            <th scope="row">Tablet</th>
+            <td>5%</td>
           </tr>
         </tbody>
       </table>
