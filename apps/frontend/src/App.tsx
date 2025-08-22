@@ -8,7 +8,14 @@ import styles from "./App.module.css"
 
 function App() {
 
+  const [index, setIndex] = useState(0);
 
+  console.log(index)
+
+  function onClick(i) {
+    setIndex(i);
+  }
+  
   const mockedData = {
     "labels": ["2025-08-15", "2025-08-16", "2015-08-17"],
     "pageViews": [120, 95, 140]
@@ -27,15 +34,15 @@ function App() {
       </header>
       <div className={styles.statsContainer}>
           <ul className={styles.stats}>
-            <li>
+            <li className={index === 0 ? styles.active : ""} onClick={() => onClick(0)}>
               <h3>TOTAL VISITS</h3>
               <span>1.3M</span>
             </li>
-            <li>
+            <li className={index === 1 ? styles.active : ""} onClick={() => onClick(1)} >
               <h3>UNIQUE VISITORS</h3>
               <span>834K</span>
             </li>
-            <li>
+            <li className={index === 2 ? styles.active : ""} onClick={() => onClick(2)}>
               <h3>TOTAL PAGES VIEWS</h3>
               <span>983</span>
             </li>
