@@ -1,13 +1,13 @@
 export interface CreateUserDTO {
   email: string;
-  firstname: string;
+  name: string;
   password: string;
 }
 
 export interface UserDTO {
   id: number;
   email: string;
-  firstname: string;
+  name: string;
   password: string;
   isValidEmail: boolean;
   lastResendEmail: number;
