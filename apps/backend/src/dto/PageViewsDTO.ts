@@ -8,6 +8,7 @@ export interface PageViewsDTO {
   referrer: string;
   deviceType: DeviceType;
   browser: string;
+  os: string;
   country: string;
-  createdAt: Date;
+  viewedAt: Date;
 }
