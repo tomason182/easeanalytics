@@ -1,6 +1,5 @@
 import { randomUUID } from "node:crypto";
 import { WebsiteDTO } from "../../dto/WebsiteDTO";
-import { promises } from "node:dns";
 
 export class Website {
   public id: number | null;
