@@ -50,7 +50,7 @@ export class EmailServiceSMTP {
       };
 
       // 4. Enviar correo
-      await this.transporter.sendEmail(mailOptions);
+      await this.transporter.sendMail(mailOptions);
     } catch (err) {
       if (err instanceof Error) {
         throw new Error(`Fail to send email: ${err.message}`);
