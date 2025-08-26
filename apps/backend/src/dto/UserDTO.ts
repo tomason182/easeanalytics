@@ -5,12 +5,12 @@ export interface CreateUserDTO {
 }
 
 export interface UserDTO {
-  id: number;
+  id: number | null;
   email: string;
   name: string;
   password: string;
   isValidEmail: boolean;
   lastResendEmail: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date | null;
+  updatedAt: Date | null;
 }
