@@ -5,8 +5,8 @@ export class User {
   public id: number | null;
   public email: string;
   public name: string;
-  public createdAt: Date;
-  public updatedAt: Date;
+  public createdAt: Date | null;
+  public updatedAt: Date | null;
   private passwordHash: string;
   private isValidEmail: boolean;
   private lastResendEmail: number;
@@ -19,8 +19,8 @@ export class User {
     passwordHash: string,
     isValidEmail: boolean,
     lastResendEmail: number,
-    createdAt: Date,
-    updatedAt: Date
+    createdAt: Date | null,
+    updatedAt: Date | null
   ) {
     this.id = id;
     this.email = email;
