@@ -10,4 +10,8 @@ export interface IUserRepository {
   validateEmail(id: number): Promise<void>;
 
   updateLastResendEmail(user: User): Promise<void>;
+
+  updateProfile(user: User): Promise<void>;
+
+  updatePasswordHash(user: User): Promise<void>;
 }

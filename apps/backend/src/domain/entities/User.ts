@@ -114,7 +114,13 @@ export class User {
   getName(): string {
     return this.name;
   }
+  setName(name: string): void {
+    this.name = name;
+  }
   getEmail(): string {
     return this.email;
+  }
+  setPasswordHash(passwordHash: string): void {
+    this.passwordHash = passwordHash;
   }
 }

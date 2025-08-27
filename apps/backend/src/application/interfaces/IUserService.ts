@@ -1,4 +1,5 @@
 import { UserDTO } from "../../dto/UserDTO";
+import { ChangePassDTO } from "../../dto/ChangePassDTO";
 import { User } from "../../domain/entities/User";
 
 export interface IUserService {
@@ -12,4 +13,18 @@ export interface IUserService {
   validateEmail(token: string): Promise<{ status: string; msg: string }>;
 
   resendEmail(email: string): Promise<{ status: string; msg: string }>;
+
+  updateProfile(userDTO: UserDTO): Promise<{ status: string; msg: string }>;
+
+  changePassword(
+    changePassDTO: ChangePassDTO
+  ): Promise<{ status: string; msg: string }>;
+
+  requestNewPassword(email: string): Promise<{ status: string; msg: string }>;
+
+  resetPassword(
+    token: string,
+    newPassword: string,
+    repeatNewPassword: string
+  ): Promise<{ status: string; msg: string }>;
 }
