@@ -14,7 +14,10 @@ export interface IUserService {
 
   resendEmail(email: string): Promise<{ status: string; msg: string }>;
 
-  updateProfile(userDTO: UserDTO): Promise<{ status: string; msg: string }>;
+  updateProfile(
+    userId: number,
+    name: string
+  ): Promise<{ status: string; msg: string }>;
 
   changePassword(
     changePassDTO: ChangePassDTO
