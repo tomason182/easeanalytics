@@ -1,8 +1,8 @@
-import { JwtPayload, sign, verify } from "jsonwebtoken";
+import { JwtPayload, sign, verify, SignOptions } from "jsonwebtoken";
 
 export function jwtTokenGenerator(
   data: object,
-  expirationTimeSeg: number
+  expirationTimeSeg: number | string
 ): string {
   const jwtSecret = process.env.JWT_SECRET;
 
@@ -15,7 +15,7 @@ export function jwtTokenGenerator(
   };
 
   const token: string = sign(payload, jwtSecret, {
-    expiresIn: expirationTimeSeg,
+    expiresIn: expirationTimeSeg as SignOptions["expiresIn"],
   });
 
   return token;
