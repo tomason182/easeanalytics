@@ -15,7 +15,8 @@ export class UserService implements IUserService {
   private emailService: EmailServiceSMTP;
 
   constructor(userRepository: IUserRepository, emailService: EmailServiceSMTP) {
-    (this.userRepository = userRepository), (this.emailService = emailService);
+    this.userRepository = userRepository;
+    this.emailService = emailService;
   }
 
   async register(userDTO: UserDTO): Promise<{ status: string; msg: string }> {
