@@ -23,12 +23,7 @@ export class UserService implements IUserService {
     // 1. Check if user exists.
     const userExist = await this.userRepository.findByEmail(userDTO.email);
 
-    if (userExist !== null) {
-      return {
-        status: "error",
-        msg: "USER_EXIST",
-      };
-    }
+    if (userExist !== null) throw new Error("USER_EXITS");
 
     // 2. Create user entity
     const user = await User.fromDTO(userDTO, { hashPassword: true });
@@ -51,12 +46,8 @@ export class UserService implements IUserService {
       | (JwtPayload & { sub: { id: string; email: string } })
       | false;
 
-    if (decoded == false || !decoded.sub) {
-      return {
-        status: "error",
-        msg: "INVALID_OR_EXPIRED_TOKEN",
-      };
-    }
+    if (decoded == false || !decoded.sub)
+      throw new Error("INVALID_OR_EXPIRED_TOKEN");
 
     // 2. get userId from token sub =  { id:id, email:email}
     const id = parseInt(decoded.sub.id);
@@ -64,12 +55,11 @@ export class UserService implements IUserService {
     // 3. Search the user by id.
     const user = await this.userRepository.findById(id);
 
-    if (!user) return { status: "error", msg: "USER_NOT_FOUND" };
+    if (!user) throw new Error("USER_NOT_FOUND");
 
     // 4. Check if account was already validated.
     const isValidAccount = user.checkValidAccount();
-    if (isValidAccount == true)
-      return { status: "error", msg: "ACCOUNT_ALREADY_VALIDATED" };
+    if (isValidAccount == true) throw new Error("ACCOUNT_ALREADY_VALIDATED");
 
     // 5. Update isValidEmail.
     await this.userRepository.validateEmail(user.getId());
@@ -96,23 +86,16 @@ export class UserService implements IUserService {
     // 1. Search user by email
     const user = await this.userRepository.findByEmail(email);
 
-    if (user == null) {
-      return {
-        status: "error",
-        msg: "USER_NOT_FOUND",
-      };
-    }
+    if (user == null) throw new Error("USER_NOT_FOUND");
 
     // 2. Check the email is not validated.
     const isValidAccount = user.checkValidAccount();
-    if (isValidAccount == true)
-      return { status: "error", msg: "ACCOUNT_ALREADY_VALIDATED" };
+    if (isValidAccount == true) throw new Error("ACCOUNT_ALREADY_VALIDATED");
 
     // 3. Check waiting period.
     const canResendEmail = user.canResendEmail();
 
-    if (canResendEmail == false)
-      return { status: "error", msg: "WAITING_PERIOD" };
+    if (canResendEmail == false) throw new Error("WAITING_PERIOD");
 
     // 4. Update last resend email.
     user.setLastResendEmail();
@@ -149,6 +132,7 @@ export class UserService implements IUserService {
 
     // 4. Generate token
     const userData = {
+      id: user.getId(),
       name: user.getName(),
     };
     const token = jwtTokenGenerator(userData, "8h");
@@ -157,18 +141,15 @@ export class UserService implements IUserService {
   }
 
   async updateProfile(
-    userDTO: UserDTO
+    userId: number,
+    name: string
   ): Promise<{ status: string; msg: string }> {
-    if (!userDTO.id || !userDTO.name) {
-      throw new Error("User id and user name must be provided");
-    }
-
     // 1. Find user by id
-    const user = await this.userRepository.findById(userDTO.id);
+    const user = await this.userRepository.findById(userId);
 
     if (user == null) throw new Error("USER_NOT_FOUND");
 
-    user.setName(userDTO.name);
+    user.setName(name);
 
     await this.userRepository.updateProfile(user);
 
@@ -183,22 +164,20 @@ export class UserService implements IUserService {
   ): Promise<{ status: string; msg: string }> {
     const user = await this.userRepository.findById(changePassDTO.id);
 
-    if (!user) return { status: "error", msg: "USER_NOT_FOUND" };
+    if (!user) throw new Error("USER_NOT_FOUND");
 
     const passwordMatch = user.checkPassword(
       changePassDTO.newPassword,
       changePassDTO.repeatNewPassword
     );
 
-    if (passwordMatch == false)
-      return { status: "error", msg: "PASSWORD_NOT_MATCH" };
+    if (passwordMatch == false) throw new Error("PASSWORD_NOT_MATCH");
 
     const isOldPasswordValid = await user.comparePasswords(
       changePassDTO.currentPassword
     );
 
-    if (isOldPasswordValid == false)
-      return { status: "error", msg: "INVALID_PASSWORD" };
+    if (isOldPasswordValid == false) throw new Error("INVALID_PASSWORD");
 
     const passwordHash = await User.passwordHash(changePassDTO.newPassword);
 
@@ -215,21 +194,19 @@ export class UserService implements IUserService {
     // 1. Search user by email
     const user = await this.userRepository.findByEmail(email);
 
-    if (!user) return { status: "error", msg: "USER_NOT_FOUND" };
+    if (!user) throw new Error("USER_NOT_FOUND");
 
     // 2. Check if valid account
     const isValidAccount = user.checkValidAccount();
 
-    if (isValidAccount == false)
-      return { status: "error", msg: "ACCOUNT_NOT_VALIDATED" };
+    if (isValidAccount == false) throw new Error("ACCOUNT_NOT_VALIDATED");
 
     // 3. Check waiting period
     user.setLastResendEmail();
 
     const canResendEmail = user.canResendEmail();
 
-    if (canResendEmail == false)
-      return { status: "error", msg: "WAITING_PERIOD" };
+    if (canResendEmail == false) throw new Error("WAITING_PERIOD");
 
     // 4. Update last resend email time.
     user.setLastResendEmail();
@@ -251,24 +228,19 @@ export class UserService implements IUserService {
       | (JwtPayload & { sub: { id: string; email: string } })
       | false;
 
-    if (decoded == false || !decoded.sub) {
-      return {
-        status: "error",
-        msg: "INVALID_OR_EXPIRED_TOKEN",
-      };
-    }
+    if (decoded == false || !decoded.sub)
+      throw new Error("INVALID_OR_EXPIRED_TOKEN");
 
     // 2. Get user by id;
     const userId = parseInt(decoded.sub.id);
     const user = await this.userRepository.findById(userId);
 
-    if (!user) return { status: "error", msg: "USER_NOT_FOUND" };
+    if (!user) throw new Error("USER_NOT_FOUND");
 
     // 3. Verify password match
     const passwordMatch = user.checkPassword(newPassword, repeatNewPassword);
 
-    if (passwordMatch == false)
-      return { status: "error", msg: "PASSWORD_NOT_MATCH" };
+    if (passwordMatch == false) throw new Error("PASSWORD_NOT_MATCH");
 
     // 3. Update password
     const passwordHash = await User.passwordHash(newPassword);
