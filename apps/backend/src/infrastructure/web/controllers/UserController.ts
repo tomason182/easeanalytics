@@ -3,6 +3,7 @@ import { verifyCaptcha } from "../middleware/verifyCaptcha";
 import { Request, Response, NextFunction, CookieOptions } from "express";
 import { IUserService } from "../../../application/interfaces/IUserService";
 import { UserDTO } from "../../../dto/UserDTO";
+import { ChangePassDTO } from "../../../dto/ChangePassDTO";
 
 const COOKIES_EXPIRATION_TIME_MS = 3600 * 8 * 1000;
 const SHARED_COOKIES_OPTIONS = {
@@ -161,6 +162,77 @@ export class UserController {
       if (!userId) throw new Error("USER_ID_NOT_DEFINED");
 
       const result = await this.userService.updateProfile(userId, name);
+
+      return res.status(200).json({ msg: result.msg });
+    } catch (err) {
+      let errorMessage = "UNKNOWN_ERROR";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+
+      return res.status(400).json({ msg: errorMessage });
+    }
+  }
+
+  async changePassword(req: Request, res: Response): Promise<Response> {
+    try {
+      const { currentPassword, newPassword, repeatNewPassword } =
+        matchedData(req);
+
+      const payload = req.auth;
+      let userId = null;
+      if (payload && typeof payload !== "string") {
+        userId = payload.id;
+      }
+
+      if (!userId) throw new Error("USER_ID_NOT_DEFINED");
+
+      const changePassDTO: ChangePassDTO = {
+        id: userId,
+        currentPassword,
+        newPassword,
+        repeatNewPassword,
+      };
+
+      const result = await this.userService.changePassword(changePassDTO);
+
+      return res.status(200).json({ msg: result.msg });
+    } catch (err) {
+      let errorMessage = "UNKNOWN_ERROR";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+
+      return res.status(400).json({ msg: errorMessage });
+    }
+  }
+
+  async resetPassword(req: Request, res: Response): Promise<Response> {
+    try {
+      const { email } = matchedData(req);
+
+      const result = await this.userService.requestNewPassword(email);
+
+      return res.status(200).json({ msg: result.msg });
+    } catch (err) {
+      let errorMessage = "UNKNOWN_ERROR";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+
+      return res.status(400).json({ msg: errorMessage });
+    }
+  }
+
+  async resetPasswordLastStep(req: Request, res: Response): Promise<Response> {
+    try {
+      const { token, newPassword, repeatNewPassword } = matchedData(req);
+
+      const result = await this.userService.resetPassword(
+        token,
+        newPassword,
+        repeatNewPassword
+      );
 
       return res.status(200).json({ msg: result.msg });
     } catch (err) {
