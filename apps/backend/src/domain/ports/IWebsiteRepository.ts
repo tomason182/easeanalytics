@@ -7,7 +7,7 @@ export interface IWebsiteRepository {
 
   findAll(userId: number): Promise<Array<Website>>;
 
-  delete(id: number): Promise<void>;
+  delete(id: number, userId: number): Promise<void>;
 
   update(website: Website): Promise<void>;
 }
