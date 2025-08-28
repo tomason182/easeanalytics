@@ -1,5 +1,9 @@
 import { randomUUID } from "node:crypto";
-import { WebsiteDTO } from "../../dto/WebsiteDTO";
+import {
+  CreateWebsiteDTO,
+  UpdateWebsiteDTO,
+  WebsiteDTO,
+} from "../../dto/WebsiteDTO";
 
 export class Website {
   public id: number | null;
@@ -7,8 +11,8 @@ export class Website {
   public siteName: string;
   public siteUrl: string;
   public siteKey: string;
-  public createdAt: Date;
-  public updatedAt: Date;
+  public createdAt: Date | null;
+  public updatedAt: Date | null;
 
   constructor(
     id: number | null,
@@ -16,8 +20,8 @@ export class Website {
     siteName: string,
     siteUrl: string,
     siteKey: string,
-    createdAt: Date,
-    updatedAt: Date
+    createdAt: Date | null,
+    updatedAt: Date | null
   ) {
     this.id = id;
     this.userId = userId;
@@ -33,8 +37,8 @@ export class Website {
     return randomUUID();
   }
 
-  static fromDTO(data: WebsiteDTO, options = { setSiteKey: false }): Website {
-    const siteKey = options.setSiteKey ? Website.setSiteKey() : data.siteKey;
+  static fromDTO(data: WebsiteDTO): Website {
+    const siteKey = data.siteKey;
 
     return new Website(
       data.id,
@@ -44,6 +48,20 @@ export class Website {
       siteKey,
       data.createdAt,
       data.updatedAt
+    );
+  }
+
+  static fromCreateDTO(data: CreateWebsiteDTO): Website {
+    const siteKey = Website.setSiteKey();
+
+    return new Website(
+      null,
+      data.userId,
+      data.siteName,
+      data.siteUrl,
+      siteKey,
+      null,
+      null
     );
   }
 
@@ -58,8 +76,14 @@ export class Website {
   getUserId(): number {
     return this.userId;
   }
+  setSiteName(name: string): void {
+    this.siteName = name;
+  }
   getSiteName(): string {
     return this.siteName;
+  }
+  setSiteUrl(url: string): void {
+    this.siteUrl = url;
   }
   getSiteUrl(): string {
     return this.siteUrl;
