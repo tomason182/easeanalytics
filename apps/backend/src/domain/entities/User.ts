@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { CreateUserDTO, UserDTO } from "../../dto/UserDTO";
+import { UserDTO } from "../../dto/UserDTO";
 
 export class User {
   public id: number | null;
@@ -91,6 +91,10 @@ export class User {
   }
 
   // Getters and Setters
+  setId(id: number): void {
+    this.id = id;
+  }
+
   getId(): number {
     const id = this.id;
     if (!id) {
@@ -122,5 +126,8 @@ export class User {
   }
   setPasswordHash(passwordHash: string): void {
     this.passwordHash = passwordHash;
+  }
+  getPasswordHash(): string {
+    return this.passwordHash;
   }
 }

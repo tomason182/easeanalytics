@@ -1,10 +1,12 @@
+import { RowDataPacket } from "mysql2/promise";
+
 export interface CreateUserDTO {
   email: string;
   name: string;
   password: string;
 }
 
-export interface UserDTO {
+export interface UserDTO extends RowDataPacket {
   id: number | null;
   email: string;
   name: string;
