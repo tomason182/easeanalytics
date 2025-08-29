@@ -1,4 +1,6 @@
-export interface WebsiteDTO {
+import { RowDataPacket } from "mysql2/promise";
+
+export interface WebsiteDTO extends RowDataPacket {
   id: number;
   userId: number;
   siteName: string;

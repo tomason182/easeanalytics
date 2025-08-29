@@ -1,9 +1,5 @@
 import { randomUUID } from "node:crypto";
-import {
-  CreateWebsiteDTO,
-  UpdateWebsiteDTO,
-  WebsiteDTO,
-} from "../../dto/WebsiteDTO";
+import { CreateWebsiteDTO, WebsiteDTO } from "../../dto/WebsiteDTO";
 
 export class Website {
   public id: number | null;
@@ -72,6 +68,9 @@ export class Website {
       throw new Error("Website id is not defined");
     }
     return id;
+  }
+  setId(id: number): void {
+    this.id = id;
   }
   getUserId(): number {
     return this.userId;
