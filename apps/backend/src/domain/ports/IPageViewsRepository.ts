@@ -1,17 +1,45 @@
 import { PageViews } from "../entities/PageViews";
+import { totalViews, StatsRows } from "../../dto/PageViewsDTO";
 
 export interface IPageViewsRepository {
+  // Record a visit
   record(pageViews: PageViews): Promise<void>;
 
-  getTotalViewsByPage(pageId: number): Promise<number>;
+  // Delete old record. Should be an automatic process.
+  // Seems better to use a script directly.
+  //deleteOldViews(pageId: number, olderThan: Date): Promise<void>;
 
-  getTotalViewsByDataRange(
-    pageId: number,
-    start: Date,
-    end: Date
-  ): Promise<number>;
+  // Get unique visitors
+  getUniqueVisitors(websiteId: number, days: number): Promise<totalViews>;
 
-  getUniqueVisitors(pageId: number): Promise<number>;
+  // Get total visits
+  getTotalViews(websiteId: number): Promise<totalViews>;
 
-  deleteOldViews(pageId: number, olderThan: Date): Promise<void>;
+  // Get views by interval
+  getViewsByInterval(websiteId: number, days: number): Promise<totalViews>;
+
+  // Current visitors
+  getCurrentVisitors(websiteId: number): Promise<totalViews>;
+
+  // Views per visit
+
+  // Bounce rate
+
+  // Visit duration
+
+  // Top sources
+  getViewsBySource(websiteId: number, days: number): Promise<StatsRows[]>;
+
+  // Top Pages
+  getViewsByPageURL(websiteId: number, days: number): Promise<StatsRows[]>;
+
+  // Countries
+  getViewsByCountry(websiteId: number, days: number): Promise<StatsRows[]>;
+
+  // Devices
+  getViewsByDevice(websiteId: number, days: number): Promise<StatsRows[]>;
+
+  // OS
+
+  // Device type
 }
