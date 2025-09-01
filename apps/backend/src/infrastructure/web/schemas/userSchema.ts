@@ -1,10 +1,12 @@
+import { Schema } from "express-validator";
+
 const PASS_MIN_LENGTH = 8;
 const PASS_MIN_LOWERCASE = 1;
 const PASS_MIN_UPPERCASE = 1;
 const PASS_MIN_NUMBERS = 1;
 const PASS_MIN_SYMBOLS = 1;
 
-export const userSchema = {
+export const userSchema: Schema = {
   email: {
     in: ["body"],
     trim: true,
@@ -63,7 +65,7 @@ export const userSchema = {
   },
 };
 
-export const userLoginSchema = {
+export const userLoginSchema: Schema = {
   email: {
     in: ["body"],
     trim: true,
@@ -83,7 +85,7 @@ export const userLoginSchema = {
   },
 };
 
-export const changePassSchema = {
+export const changePassSchema: Schema = {
   currentPassword: {
     in: ["body"],
     notEmpty: {
@@ -135,7 +137,7 @@ export const changePassSchema = {
   },
 };
 
-export const resetPasswordSchema = {
+export const resetPasswordSchema: Schema = {
   token: {
     in: ["params"],
     isJWT: true,
