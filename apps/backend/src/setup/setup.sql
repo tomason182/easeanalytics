@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS websites (
 );
 
 CREATE TABLE IF NOT EXISTS page_views (
-    id BIGINT AUTO_INCREMENT PRIMARY_KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     website_id BIGINT NOT NULL,
     visitor_id CHAR(36) NOT NULL,
     page_url VARCHAR(500) NOT NULL,
@@ -38,6 +38,5 @@ CREATE TABLE IF NOT EXISTS page_views (
 
     FOREIGN KEY (website_id) REFERENCES websites(id) ON DELETE CASCADE,
     INDEX (website_id, viewed_at),
-    INDEX (visitor_id),
-    INDEX (session_id)
+    INDEX (visitor_id)
 );
