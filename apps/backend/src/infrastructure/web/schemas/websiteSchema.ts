@@ -1,4 +1,6 @@
-export const websiteSchema = {
+import { Schema } from "express-validator";
+
+export const websiteSchema: Schema = {
   siteName: {
     in: ["body"],
     trim: true,
@@ -22,7 +24,7 @@ export const websiteSchema = {
       bail: true,
       errorMessage: "site url must be provided",
     },
-    isUrl: {
+    isURL: {
       options: {
         protocols: ["http", "https"],
         require_tld: true,
