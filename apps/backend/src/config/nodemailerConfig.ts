@@ -1,6 +1,7 @@
 import "dotenv/config.js";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 
-export const config = {
+export const config: SMTPTransport.Options = {
   host: process.env.EMAIL_HOST,
   port: process.env.NODE_ENV === "production" ? 465 : 587,
   secure: process.env.NODE_ENV === "production",

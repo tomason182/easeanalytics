@@ -1,4 +1,5 @@
 import nodemailer, { Transporter, SendMailOptions } from "nodemailer";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 import path from "path";
 import fs from "node:fs/promises";
 import crypto from "node:crypto";
@@ -9,7 +10,7 @@ import { convert } from "html-to-text";
 export class EmailServiceSMTP {
   private transporter: Transporter;
 
-  constructor(config: nodemailer.TransportOptions) {
+  constructor(config: SMTPTransport.Options) {
     this.transporter = nodemailer.createTransport(config);
   }
 
