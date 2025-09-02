@@ -55,6 +55,19 @@ export class WebsiteRepositoryMySQL implements IWebsiteRepository {
     return websiteList;
   }
 
+  async findByKey(key: string): Promise<Website | null> {
+    const conn = await this.uow.getConnection();
+    const query = "SELECT * FROM website WHERE site_key = ?";
+
+    const [result] = await conn.execute<WebsiteDTO[]>(query, [key]);
+
+    if (result.length === 0) return null;
+
+    const website = Website.fromDTO(result[0]);
+
+    return website;
+  }
+
   async delete(id: number, userId: number): Promise<void> {
     const conn = await this.uow.getConnection();
     const query = "DELETE FROM websites WHERE id = ? AND user_id = ?";

@@ -5,6 +5,8 @@ export interface IWebsiteRepository {
 
   find(id: number): Promise<Website | null>;
 
+  findByKey(key: string): Promise<Website | null>;
+
   findAll(userId: number): Promise<Array<Website>>;
 
   delete(id: number, userId: number): Promise<void>;
