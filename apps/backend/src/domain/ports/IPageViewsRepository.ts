@@ -40,6 +40,5 @@ export interface IPageViewsRepository {
   getViewsByDevice(websiteId: number, days: number): Promise<StatsRows[]>;
 
   // OS
-
-  // Device type
+  getViewsByOS(websiteId: number, days: number): Promise<StatsRows[]>;
 }

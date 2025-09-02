@@ -127,7 +127,18 @@ export class PageViewsRepositoryMySQL implements IPageViewsRepository {
   ): Promise<StatsRows[]> {
     const conn = await this.uow.getConnection();
     const query =
-      "SELECT device, COUNT(*) AS total_views FROM page_views FROM page_views WHERE website_id = ? AND viewed_at >= NOW() - INTERVAL ? DAY GROUP BY device ORDER BY total_views DESC;";
+      "SELECT device, COUNT(*) AS total_views FROM page_views WHERE website_id = ? AND viewed_at >= NOW() - INTERVAL ? DAY GROUP BY device ORDER BY total_views DESC;";
+
+    const [rows] = await conn.execute<StatsRows[]>(query, [websiteId, days]);
+
+    return rows;
+  }
+
+  // Get page views by OS
+  async getViewsByOS(websiteId: number, days: number): Promise<StatsRows[]> {
+    const conn = await this.uow.getConnection();
+    const query =
+      "SELECT os, COUNT(*) AS total_views FROM page_views WHERE website_di = ? AND viewed_at >= NOW() - INTERVAL ? DAY GROUP BY os ORDER BY total_views DESC;";
 
     const [rows] = await conn.execute<StatsRows[]>(query, [websiteId, days]);
 
