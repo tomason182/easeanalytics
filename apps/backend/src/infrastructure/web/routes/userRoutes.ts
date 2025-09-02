@@ -99,6 +99,7 @@ router.get("/logout/", (req: Request, res: Response, next: NextFunction) => {
 router.put(
   "/profile/change-password",
   checkSchema(changePassSchema),
+  authMiddleware,
   validateRequest,
   (req: Request, res: Response, next: NextFunction) => {
     const userController = res.locals.container.getUserController();
