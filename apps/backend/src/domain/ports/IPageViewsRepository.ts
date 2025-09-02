@@ -1,9 +1,9 @@
-import { PageViews } from "../entities/PageViews";
-import { totalViews, StatsRows } from "../../dto/PageViewsDTO";
+import { PageView } from "../entities/PageView";
+import { totalViews, StatsRows } from "../../dto/PageViewDTO";
 
 export interface IPageViewsRepository {
   // Record a visit
-  record(pageViews: PageViews): Promise<void>;
+  record(pageViews: PageView): Promise<void>;
 
   // Delete old record. Should be an automatic process.
   // Seems better to use a script directly.

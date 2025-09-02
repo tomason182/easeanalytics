@@ -1,7 +1,7 @@
 import { IPageViewsRepository } from "../../domain/ports/IPageViewsRepository";
-import { PageViews } from "../../domain/entities/PageViews";
+import { PageView } from "../../domain/entities/PageView";
 import { UnitOfWork } from "../transactions/UnitOfWork";
-import { PageViewsDTO, totalViews, StatsRows } from "../../dto/PageViewsDTO";
+import { PageViewDTO, totalViews, StatsRows } from "../../dto/PageViewDTO";
 
 export class PageViewsRepositoryMySQL implements IPageViewsRepository {
   private uow: UnitOfWork;
@@ -10,7 +10,7 @@ export class PageViewsRepositoryMySQL implements IPageViewsRepository {
     this.uow = uow;
   }
 
-  async record(pageview: PageViews): Promise<void> {
+  async record(pageview: PageView): Promise<void> {
     const conn = await this.uow.getConnection();
     const query =
       "INSERT INTO page_views (website_id, visitor_id, page_url, referrer, device_type, browser, os, country) VALUES (?,?,?,?,?,?,?,?);";
@@ -25,7 +25,7 @@ export class PageViewsRepositoryMySQL implements IPageViewsRepository {
       pageview.getCountry(),
     ];
 
-    await conn.execute<PageViewsDTO[]>(query, params);
+    await conn.execute<PageViewDTO[]>(query, params);
   }
 
   // Get unique visitors
