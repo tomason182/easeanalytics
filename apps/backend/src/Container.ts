@@ -5,12 +5,12 @@ import { EmailServiceSMTP } from "./infrastructure/email/EmailServiceSMTP";
 import { makeTransactional } from "./infrastructure/transactions/transactionalDecorator";
 import { UnitOfWork } from "./infrastructure/transactions/UnitOfWork";
 //User
-import { UserService } from "./application/userService";
+import { UserService } from "./application/UserService";
 import { UserController } from "./infrastructure/web/controllers/UserController";
 import { UserRepositoryMySQL } from "./infrastructure/repositories/UserRepositoryMySQL";
 
 // Website
-import { WebsiteService } from "./application/websiteService";
+import { WebsiteService } from "./application/WebsiteService";
 import { WebsiteController } from "./infrastructure/web/controllers/websiteController";
 import { WebsiteRepositoryMySQL } from "./infrastructure/repositories/WebsiteRepositoryMySQL";
 
