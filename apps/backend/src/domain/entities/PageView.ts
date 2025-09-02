@@ -1,4 +1,6 @@
 import { DeviceType, PageViewDTO } from "../../dto/PageViewDTO";
+import { ScriptDTO } from "../../dto/ScriptDTO";
+import crypto from "node:crypto";
 
 export class PageView {
   public id: number;
@@ -49,6 +51,33 @@ export class PageView {
       data.country,
       data.viewedAt
     );
+  }
+
+  static anonymizeIp(ip: string): string {
+    // For IPv4 keep the first 3 octets.
+    if (ip.includes(".")) {
+      const parts = ip.split(".");
+      if (parts.length === 4) {
+        parts[3] = "0";
+        return parts.join(".");
+      }
+    }
+
+    if (ip.includes(":")) {
+      const blocks = ip.split(":");
+      if (blocks.length >= 4) {
+        return blocks.slice(0, 4).join(":") + "::";
+      }
+    }
+
+    return ip; // fallback
+  }
+
+  static generateVisitorId(userAgent: string, ip: string) {
+    const secretKey = process.env.HASH_SECRET;
+    const anonymizedIp = this.anonymizeIp(ip);
+    const raw = `${anonymizedIp}|${userAgent}|${secretKey}`;
+    return crypto.createHash("sha256").update(raw).digest("hex");
   }
 
   // Getters
