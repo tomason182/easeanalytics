@@ -1,6 +1,6 @@
-import { DeviceType, PageViewsDTO } from "../../dto/PageViewsDTO";
+import { DeviceType, PageViewDTO } from "../../dto/PageViewDTO";
 
-export class PageViews {
+export class PageView {
   public id: number;
   public websiteId: number;
   public visitorId: string;
@@ -36,8 +36,8 @@ export class PageViews {
     this.viewedAt = viewedAt;
   }
 
-  static fromDTO(data: PageViewsDTO): PageViews {
-    return new PageViews(
+  static fromDTO(data: PageViewDTO): PageView {
+    return new PageView(
       data.id,
       data.websiteId,
       data.visitorId,
