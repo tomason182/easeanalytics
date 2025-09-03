@@ -7,7 +7,7 @@ import {
 import { JwtPayload } from "jsonwebtoken";
 import { IUserService } from "./interfaces/IUserService";
 import { IUserRepository } from "../domain/ports/IUserRepository";
-import { UserDTO } from "../dto/UserDTO";
+import { UserDTO, CreateUserDTO } from "../dto/UserDTO";
 import { ChangePassDTO } from "../dto/ChangePassDTO";
 
 export class UserService implements IUserService {
@@ -19,14 +19,16 @@ export class UserService implements IUserService {
     this.emailService = emailService;
   }
 
-  async register(userDTO: UserDTO): Promise<{ status: string; msg: string }> {
+  async register(
+    userDTO: CreateUserDTO
+  ): Promise<{ status: string; msg: string }> {
     // 1. Check if user exists.
     const userExist = await this.userRepository.findByEmail(userDTO.email);
 
     if (userExist !== null) throw new Error("USER_EXITS");
 
     // 2. Create user entity
-    const user = await User.fromDTO(userDTO, { hashPassword: true });
+    const user = await User.fromCreateUserDTO(userDTO);
 
     // 3. Save the user in the database.
     await this.userRepository.save(user);

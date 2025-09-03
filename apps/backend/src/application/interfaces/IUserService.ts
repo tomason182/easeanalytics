@@ -1,4 +1,4 @@
-import { UserDTO } from "../../dto/UserDTO";
+import { UserDTO, CreateUserDTO } from "../../dto/UserDTO";
 import { ChangePassDTO } from "../../dto/ChangePassDTO";
 import { User } from "../../domain/entities/User";
 
@@ -8,7 +8,7 @@ export interface IUserService {
     password: string
   ): Promise<{ user: User; token: string }>;
 
-  register(userDTO: UserDTO): Promise<{ status: string; msg: string }>;
+  register(userDTO: CreateUserDTO): Promise<{ status: string; msg: string }>;
 
   validateEmail(token: string): Promise<{ status: string; msg: string }>;
 

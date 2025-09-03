@@ -7,7 +7,7 @@ export interface CreateUserDTO {
 }
 
 export interface UserDTO extends RowDataPacket {
-  id: number | null;
+  id: number;
   email: string;
   name: string;
   password: string;

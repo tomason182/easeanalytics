@@ -2,7 +2,7 @@ import { matchedData } from "express-validator";
 import { verifyCaptcha } from "../middleware/verifyCaptcha";
 import { Request, Response, NextFunction, CookieOptions } from "express";
 import { IUserService } from "../../../application/interfaces/IUserService";
-import { UserDTO } from "../../../dto/UserDTO";
+import { CreateUserDTO } from "../../../dto/UserDTO";
 import { ChangePassDTO } from "../../../dto/ChangePassDTO";
 
 const COOKIES_EXPIRATION_TIME_MS = 3600 * 8 * 1000;
@@ -40,15 +40,10 @@ export class UserController {
         return res.status(400).json({ msg: "INVALID_CAPTCHA" });
       }
 
-      const userDTO: UserDTO = {
-        id: null,
+      const userDTO: CreateUserDTO = {
         email,
         name,
         password,
-        isValidEmail: false,
-        lastResendEmail: Date.now(),
-        createdAt: null,
-        updatedAt: null,
       };
 
       const result = await this.userService.register(userDTO);

@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { UserDTO } from "../../dto/UserDTO";
+import { CreateUserDTO, UserDTO } from "../../dto/UserDTO";
 
 export class User {
   public id: number | null;
@@ -44,19 +44,27 @@ export class User {
     }
   }
 
-  static async fromDTO(
-    data: UserDTO,
-    options = { hashPassword: false }
-  ): Promise<User> {
-    const passwordHash = options.hashPassword
-      ? await User.passwordHash(data.password)
-      : data.password;
+  static async fromCreateUserDTO(data: CreateUserDTO) {
+    const passwordHash = await User.passwordHash(data.password);
 
+    return new User(
+      null,
+      data.email,
+      data.name,
+      passwordHash,
+      false,
+      Date.now(),
+      null,
+      null
+    );
+  }
+
+  static async fromDTO(data: UserDTO): Promise<User> {
     return new User(
       data.id || null,
       data.email,
       data.name,
-      passwordHash,
+      data.password,
       data.isValidEmail,
       data.lastResendEmail,
       data.createdAt,
