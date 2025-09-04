@@ -14,6 +14,7 @@
     "helmet": "^8.1.0",
     "html-to-text": "^9.0.5",
     "jsonwebtoken": "^9.0.2",
+    "maxmind": "^5.0.0",
     "mjml": "^4.15.3",
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
