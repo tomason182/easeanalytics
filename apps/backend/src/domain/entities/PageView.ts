@@ -1,30 +1,29 @@
-import { DeviceType, PageViewDTO } from "../../dto/PageViewDTO";
-import { ScriptDTO } from "../../dto/ScriptDTO";
+import { PageViewDTO } from "../../dto/PageViewDTO";
 import crypto from "node:crypto";
 
 export class PageView {
-  public id: number;
+  public id: number | null;
   public websiteId: number;
   public visitorId: string;
   public pageUrl: string;
   public referrer: string;
-  public deviceType: DeviceType;
+  public deviceType: string;
   public browser: string;
   public os: string;
   public country: string;
-  public viewedAt: Date;
+  public viewedAt: Date | null;
 
   constructor(
-    id: number,
+    id: number | null,
     websiteId: number,
     visitorId: string,
     pageUrl: string,
     referrer: string,
-    deviceType: DeviceType,
+    deviceType: string,
     browser: string,
     os: string,
     country: string,
-    viewedAt: Date
+    viewedAt: Date | null
   ) {
     this.id = id;
     this.websiteId = websiteId;
@@ -82,6 +81,7 @@ export class PageView {
 
   // Getters
   getId(): number {
+    if (this.id === null) throw new Error("Pageview id is null");
     return this.id;
   }
   getWebsiteId(): number {
@@ -109,6 +109,7 @@ export class PageView {
     return this.country;
   }
   getViewedAt(): Date {
+    if (this.viewedAt === null) throw new Error("Viewed at is null");
     return this.viewedAt;
   }
 }
