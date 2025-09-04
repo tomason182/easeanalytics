@@ -8,5 +8,5 @@ export interface IWebsiteService {
 
   delete(id: number, userId: number): Promise<{ status: string; msg: string }>;
 
-  read(id: number): Promise<Website>;
+  read(id: number, userId: number): Promise<Website>;
 }

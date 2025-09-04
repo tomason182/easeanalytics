@@ -26,10 +26,10 @@ export class WebsiteRepositoryMySQL implements IWebsiteRepository {
     website.setId(result.insertId);
   }
 
-  async find(id: number): Promise<Website | null> {
+  async find(id: number, userId: number): Promise<Website | null> {
     const conn = await this.uow.getConnection();
-    const query = "SELECT * FROM websites WHERE id = ? LIMIT 1";
-    const [result] = await conn.execute<WebsiteDTO[]>(query, [id]);
+    const query = "SELECT * FROM websites WHERE id = ? AND user_id = ? LIMIT 1";
+    const [result] = await conn.execute<WebsiteDTO[]>(query, [id, userId]);
 
     if (result.length === 0) {
       return null;

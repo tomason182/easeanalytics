@@ -40,7 +40,12 @@ export class WebsiteService implements IWebsiteService {
     updateWebsiteDTO: UpdateWebsiteDTO
   ): Promise<{ status: string; msg: string }> {
     // 1. Find website by id.
-    const website = await this.websiteRepository.find(updateWebsiteDTO.id);
+    const website = await this.websiteRepository.find(
+      updateWebsiteDTO.id,
+      updateWebsiteDTO.userId
+    );
+
+    if (website === null) throw new Error("Invalid website ID");
 
     // 2. Verify the userId correspond.
     if (website.getUserId() !== updateWebsiteDTO.userId) {
@@ -66,9 +71,11 @@ export class WebsiteService implements IWebsiteService {
     return { status: "ok", msg: "WEBSITE_DELETED" };
   }
 
-  async read(id: number): Promise<Website> {
+  async read(id: number, userId: number): Promise<Website> {
     // 1. Find website by id.
-    const website = await this.websiteRepository.find(id);
+    const website = await this.websiteRepository.find(id, userId);
+
+    if (website === null) throw new Error("Invalid website ID");
 
     return website;
   }

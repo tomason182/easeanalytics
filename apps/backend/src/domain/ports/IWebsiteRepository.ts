@@ -3,7 +3,7 @@ import { Website } from "../entities/Website";
 export interface IWebsiteRepository {
   save(website: Website): Promise<void>;
 
-  find(id: number): Promise<Website | null>;
+  find(id: number, userId: number): Promise<Website | null>;
 
   findByKey(key: string): Promise<Website | null>;
 
