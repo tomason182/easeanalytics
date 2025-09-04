@@ -11,3 +11,7 @@ node_modules/
 # env files
 .env
 .env.production
+
+# tar files and maxmind database
+*.mmdb
+*.tar.gz
