@@ -102,5 +102,85 @@ export class PageViewsService implements IPageViewsService {
     websiteId: number,
     userId: number,
     days: number
-  ): Promise<Stats> {}
+  ): Promise<Stats> {
+    // 1. Check website ID correspond to user.
+    const website = await this.websiteRepository.find(websiteId, userId);
+
+    if (website === null) throw new Error("Invalid website ID");
+
+    // 2. fetch unique visitors from the db.
+    const uniqueVisitors = await this.pageViewRepository.getUniqueVisitors(
+      websiteId,
+      days
+    );
+
+    // 3. fetch total visits
+    const totalPagesViews = await this.pageViewRepository.getTotalViews(
+      websiteId,
+      days
+    );
+
+    // 4. Views per visit
+    const viewsPerVisit = totalPagesViews / uniqueVisitors;
+
+    // 5. Bounce Rate
+    const singlePageVisits = await this.pageViewRepository.getSinglePageSession(
+      websiteId,
+      days
+    );
+    const bounceRate = (singlePageVisits / uniqueVisitors) * 100;
+
+    // 6. Visit duration
+    const visitDuration = 0;
+
+    // 7. fetch views by source
+    const viewsBySource = await this.pageViewRepository.getViewsBySource(
+      websiteId,
+      days
+    );
+
+    // 8. fetch views by browser
+    const viewsByBrowser = await this.pageViewRepository.getViewsByBrowser(
+      websiteId,
+      days
+    );
+
+    // 8. fetch views by country
+    const viewsByCountry = await this.pageViewRepository.getViewsByCountry(
+      websiteId,
+      days
+    );
+
+    // 9. fetch views by pageURL
+    const viewsByPageURL = await this.pageViewRepository.getViewsByPageURL(
+      websiteId,
+      days
+    );
+
+    // 10. fetch views by device
+    const viewsByDevice = await this.pageViewRepository.getViewsByDevice(
+      websiteId,
+      days
+    );
+
+    // 11. fetch views by OS
+    const viewsByOS = await this.pageViewRepository.getViewsByOS(
+      websiteId,
+      days
+    );
+
+    return new Stats(
+      uniqueVisitors,
+      totalPagesViews,
+      viewsPerVisit,
+      bounceRate,
+      visitDuration,
+      viewsByPageURL,
+      viewsBySource,
+      viewsByCountry,
+      viewsByBrowser,
+      viewsByOS,
+      viewsByDevice
+    );
+  }
 }
