@@ -2,7 +2,6 @@ import { StatsRows } from "../../dto/PageViewDTO";
 
 export class Stats {
   public uniqueVisitors: number;
-  public totalVisits: number;
   public totalPageViews: number;
   public viewsPerVisit: number;
   public bounceRate: number;
@@ -16,7 +15,6 @@ export class Stats {
 
   constructor(
     uniqueVisitors: number,
-    totalVisits: number,
     totalPageViews: number,
     viewsPerVisit: number,
     bounceRate: number,
@@ -29,7 +27,6 @@ export class Stats {
     devices: Array<StatsRows>
   ) {
     this.uniqueVisitors = uniqueVisitors;
-    this.totalVisits = totalVisits;
     this.totalPageViews = totalPageViews;
     this.viewsPerVisit = viewsPerVisit;
     this.bounceRate = bounceRate;
