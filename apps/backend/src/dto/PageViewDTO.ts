@@ -14,10 +14,6 @@ export interface PageViewDTO extends RowDataPacket {
   viewedAt: Date;
 }
 
-export interface totalViews extends RowDataPacket {
-  totalViews: number;
-}
-
 export interface StatsRows extends RowDataPacket {
   description: string;
   totalViews: number;
