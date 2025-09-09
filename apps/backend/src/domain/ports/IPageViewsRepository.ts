@@ -1,5 +1,5 @@
 import { PageView } from "../entities/PageView";
-import { totalViews, StatsRows } from "../../dto/PageViewDTO";
+import { StatsRows } from "../../dto/PageViewDTO";
 
 export interface IPageViewsRepository {
   // Record a visit
@@ -10,16 +10,16 @@ export interface IPageViewsRepository {
   //deleteOldViews(pageId: number, olderThan: Date): Promise<void>;
 
   // Get unique visitors
-  getUniqueVisitors(websiteId: number, days: number): Promise<totalViews>;
+  getUniqueVisitors(websiteId: number, days: number): Promise<number>;
 
   // Get total visits
-  getTotalViews(websiteId: number): Promise<totalViews>;
+  getTotalViews(websiteId: number, days: number): Promise<number>;
 
   // Get views by interval
-  getViewsByInterval(websiteId: number, days: number): Promise<totalViews>;
+  getViewsByInterval(websiteId: number, days: number): Promise<number>;
 
   // Current visitors
-  getCurrentVisitors(websiteId: number): Promise<totalViews>;
+  getCurrentVisitors(websiteId: number): Promise<number>;
 
   // Views per visit
 
@@ -41,4 +41,10 @@ export interface IPageViewsRepository {
 
   // OS
   getViewsByOS(websiteId: number, days: number): Promise<StatsRows[]>;
+
+  // Browser
+  getViewsByBrowser(websiteId: number, days: number): Promise<StatsRows[]>;
+
+  // Single page session
+  getSinglePageSession(websiteId: number, days: number): Promise<number>;
 }
