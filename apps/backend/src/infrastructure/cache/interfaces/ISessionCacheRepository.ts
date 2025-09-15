@@ -1,5 +1,5 @@
 export interface ISessionCacheRepository {
-  findVisitorId(id: string): Promise<number | null>;
+  findVisitorId(id: string, siteId: number): Promise<string | null>;
 
-  storeVisitorId(id: string): Promise<number>;
+  storeVisitorId(id: string, siteId: number): Promise<string>;
 }

@@ -2,7 +2,6 @@ import { PageView } from "../domain/entities/PageView";
 import { Stats } from "../domain/entities/Stats";
 import { IPageViewsRepository } from "../domain/ports/IPageViewsRepository";
 import { IWebsiteRepository } from "../domain/ports/IWebsiteRepository";
-import { PageViewDTO } from "../dto/PageViewDTO";
 import { ScriptDTO } from "../dto/ScriptDTO";
 import { ISessionCacheRepository } from "../infrastructure/cache/interfaces/ISessionCacheRepository";
 import { IPageViewsService } from "./interfaces/IPageViewsService";
@@ -61,12 +60,14 @@ export class PageViewsService implements IPageViewsService {
 
     // 3. Find the visitor ID in the cache database.
     let visitorId = await this.sessionCacheRepository.findVisitorId(
-      visitorHashID
+      visitorHashID,
+      siteId
     );
 
     if (visitorId === null) {
       visitorId = await this.sessionCacheRepository.storeVisitorId(
-        visitorHashID
+        visitorHashID,
+        siteId
       );
     }
 
