@@ -13,6 +13,7 @@
     "hcaptcha": "^0.2.0",
     "helmet": "^8.1.0",
     "html-to-text": "^9.0.5",
+    "iovalkey": "^0.3.3",
     "jsonwebtoken": "^9.0.2",
     "maxmind": "^5.0.0",
     "mjml": "^4.15.3",
@@ -34,7 +35,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/mjml": "^4.7.4",
     "@types/morgan": "^1.9.10",
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.4.0",
     "@types/nodemailer": "^7.0.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.2"
