@@ -12,7 +12,8 @@ import "dotenv/config";
 export async function createApp() {
   const app = express();
   const pool = getMySQL().getPool();
-  const container = new Container(pool);
+  const dbPath = "./infrastructure/geoip/GeoLite2-Country.mmdb";
+  const container = new Container(pool, dbPath);
 
   // Trust proxy from nginx
   app.set("trust proxy", 1);
@@ -65,7 +66,7 @@ export async function createApp() {
 
   // Error habdler
   const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-    let errorMessage = "Unexpected goblal error occurred";
+    let errorMessage = "Unexpected global error occurred";
     if (err instanceof Error) {
       errorMessage = err.message;
     }
