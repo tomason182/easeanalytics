@@ -1,0 +1,60 @@
+import { matchedData } from "express-validator";
+import { IPageViewsService } from "../../../application/interfaces/IPageViewsService";
+import { Request, Response, NextFunction } from "express";
+import { ScriptDTO } from "../../../dto/ScriptDTO";
+
+export class PageViewController {
+  private pageViewService: IPageViewsService;
+
+  constructor(pageViewService: IPageViewsService) {
+    this.pageViewService = pageViewService;
+  }
+
+  async recordPage(req: Request, res: Response): Promise<Response> {
+    try {
+      const { siteKey, url, referrer, deviceWith, userAgent, IPAddress } =
+        matchedData(req);
+
+      const scriptDTO: ScriptDTO = {
+        siteKey,
+        url,
+        referrer,
+        deviceWith,
+        userAgent,
+        IPAddress,
+      };
+
+      const result = await this.pageViewService.recordPageView(scriptDTO);
+
+      return res.status(200).json(result);
+    } catch (err) {
+      let errorMessage = "UNKNOWN_ERROR";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+
+      return res.status(400).json({ msg: errorMessage });
+    }
+  }
+
+  async getStats(req: Request, res: Response): Promise<Response> {
+    try {
+      const { websiteId, userId, days } = matchedData(req);
+
+      const result = await this.pageViewService.getStats(
+        websiteId,
+        userId,
+        days
+      );
+
+      return res.status(200).json(result);
+    } catch (err) {
+      let errorMessage = "UNKNOWN_ERROR";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+
+      return res.status(400).json({ msg: errorMessage });
+    }
+  }
+}
