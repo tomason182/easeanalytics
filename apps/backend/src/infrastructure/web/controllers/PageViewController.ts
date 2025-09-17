@@ -39,7 +39,15 @@ export class PageViewController {
 
   async getStats(req: Request, res: Response): Promise<Response> {
     try {
-      const { websiteId, userId, days } = matchedData(req);
+      const { websiteId, days } = matchedData(req);
+
+      let userId = null;
+      const payload = req.auth;
+      if (payload && typeof payload !== "string") {
+        userId = parseInt(payload.id);
+      }
+
+      if (!userId) throw new Error("USER_ID_NOT_DEFINED");
 
       const result = await this.pageViewService.getStats(
         websiteId,
