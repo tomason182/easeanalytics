@@ -4,5 +4,5 @@ export interface ScriptDTO {
   referrer: string;
   deviceWith: number;
   userAgent: string;
-  IPAddress: string;
+  ipAddress: string;
 }

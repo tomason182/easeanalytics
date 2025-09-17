@@ -12,7 +12,7 @@ export class PageViewController {
 
   async recordPage(req: Request, res: Response): Promise<Response> {
     try {
-      const { siteKey, url, referrer, deviceWith, userAgent, IPAddress } =
+      const { siteKey, url, referrer, deviceWith, userAgent, ipAddress } =
         matchedData(req);
 
       const scriptDTO: ScriptDTO = {
@@ -21,7 +21,7 @@ export class PageViewController {
         referrer,
         deviceWith,
         userAgent,
-        IPAddress,
+        ipAddress,
       };
 
       const result = await this.pageViewService.recordPageView(scriptDTO);
